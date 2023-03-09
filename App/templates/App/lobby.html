@@ -13,7 +13,6 @@
         <input type="text" name="message" autocomplete="off"/>
     </form>
     <div id="message"></div>
-
     <script type="text/javascript">
         let url=`ws://${window.location.host}/ws/socket-server/lobby/{{room_name}}/`
         const chatSocket=new WebSocket(url)
@@ -21,7 +20,14 @@
             let data=JSON.parse(e.data)
             if(data.type==='chat'){
                 let message=document.getElementById('message')
-                message.insertAdjacentHTML('beforeend',`<div> <p>${data.message}</p> </div>`)
+                var user='{{ user.username }}'
+                if (user==data.user){
+                    user="you"
+                }
+                else{
+                    user=data.user
+                }
+                message.insertAdjacentHTML('beforeend',`<div> <p>${user} :${data.message}</p> </div>`)
             }
         }
         let form=document.getElementById('form')

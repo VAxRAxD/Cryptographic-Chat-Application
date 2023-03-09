@@ -9,15 +9,23 @@ def loginPage(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+        print(user)
         if user is not None:
             login(request, user)
-            return redirect("lobby")
+            return redirect("lobby",room_name="test")
     return render(request,'App/login.html')
 
 @unauthenticated_user
 def registerPage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = User.objects.create_user(username=username, password=password)
+        user.save()
+        return redirect("lobby",room_name="test")
     return render(request,'App/register.html')
 
 @authenticated_user
 def lobby(request,room_name):
-    return render(request,'App/lobby.html',{"room_name":room_name})
+    user=request.user
+    return render(request,'App/lobby.html',{"room_name":room_name,"user":user})
