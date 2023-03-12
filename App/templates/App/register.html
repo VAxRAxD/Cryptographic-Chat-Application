@@ -7,10 +7,11 @@
     <title>Chat register</title>
 </head>
 <body>
+    <h2>Register</h2>
     <form method="POST">
         {% csrf_token %}
-        <input type="text" name="username"/>
-        <input type="password" name="password"/>
+        <input type="text" name="username" placeholder="Enter your name" autocomplete="off"/>
+        <input type="password" name="password" placeholder="Enter your password"/>
         <input class="btn" type="submit" value="Register">
     </form>
     <a href="{% url 'login' %}">Already registered?? Login</a>

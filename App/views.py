@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from json import dumps
 from . authenticator import *
 
 @unauthenticated_user
@@ -29,3 +30,8 @@ def registerPage(request):
 def lobby(request,room_name):
     user=request.user
     return render(request,'App/lobby.html',{"room_name":room_name,"user":user})
+
+@authenticated_user
+def home(request):
+    users=dumps([str(name) for entry in list(User.objects.values_list('username')) for name in entry])
+    return render(request,'App/home.html',{"users":users,'user':request.user})
