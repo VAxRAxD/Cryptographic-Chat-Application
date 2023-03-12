@@ -13,7 +13,7 @@ def loginPage(request):
         print(user)
         if user is not None:
             login(request, user)
-            return redirect("lobby",room_name="test")
+            return redirect("home")
     return render(request,'App/login.html')
 
 @unauthenticated_user
@@ -23,7 +23,7 @@ def registerPage(request):
         password = request.POST.get('password')
         user = User.objects.create_user(username=username, password=password)
         user.save()
-        return redirect("lobby",room_name="test")
+        return redirect("home")
     return render(request,'App/register.html')
 
 @authenticated_user
